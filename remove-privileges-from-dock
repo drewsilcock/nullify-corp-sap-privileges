@@ -5,12 +5,13 @@ from shutil import copy2
 from plistlib import load, dump
 from subprocess import run
 
-dock_plist_path = Path.home() / "Library/Preferences/com.apple.dock.plist"
+DOCK_PLIST = Path.home() / "Library/Preferences/com.apple.dock.plist"
+PRIVILEGES_BUNDLE_ID = "corp.sap.privileges"
 
 
 def backup_dock_plist():
-    backup_path = dock_plist_path.with_name(f"{dock_plist_path.name}.bak")
-    copy2(dock_plist_path, backup_path)
+    backup_path = DOCK_PLIST.with_name(f"{DOCK_PLIST.name}.bak")
+    copy2(DOCK_PLIST, backup_path)
 
 
 def restart_dock():
@@ -18,11 +19,11 @@ def restart_dock():
 
 
 def main():
-    with open(dock_plist_path, "rb") as fp:
+    with open(DOCK_PLIST, "rb") as fp:
         dock_prefs = load(fp)
 
     has_privileges_app = any(
-        app.get("tile-data", {}).get("bundle-identifier") == "corp.sap.privileges"
+        app.get("tile-data", {}).get("bundle-identifier") == PRIVILEGES_BUNDLE_ID
         for app in dock_prefs["persistent-apps"]
     )
 
@@ -35,10 +36,10 @@ def main():
     dock_prefs["persistent-apps"] = [
         app
         for app in dock_prefs["persistent-apps"]
-        if app.get("tile-data", {}).get("bundle-identifier") != "corp.sap.privileges"
+        if app.get("tile-data", {}).get("bundle-identifier") != PRIVILEGES_BUNDLE_ID
     ]
 
-    with open(dock_plist_path, "wb") as fp:
+    with open(DOCK_PLIST, "wb") as fp:
         dump(dock_prefs, fp)
 
     restart_dock()
