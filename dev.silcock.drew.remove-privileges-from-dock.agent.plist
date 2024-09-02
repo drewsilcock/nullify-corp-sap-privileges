@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>dev.silcock.drew.remove-privileges-from-dock</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/{{username}}/.local/bin/remove-privileges-from-dock</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <false/>
+    <key>AbandonProcessGroup</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>600</integer>
+    <key>WatchPaths</key>
+    <array>
+      <string>~/Library/Preferences/com.apple.dock.plist</string>
+    </array>
+  </dict>
+</plist>
