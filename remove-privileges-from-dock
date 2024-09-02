@@ -9,19 +9,7 @@ dock_plist_path = Path.home() / "Library/Preferences/com.apple.dock.plist"
 
 
 def backup_dock_plist():
-    backup_id = 0
-    max_tries = 1000
-
-    while True:
-        backup_path = dock_plist_path.with_name(
-            f"{dock_plist_path.name}.bak.{backup_id}"
-        )
-        if not backup_path.exists():
-            break
-        backup_id += 1
-        if backup_id >= max_tries:
-            raise RuntimeError("Too many backups, aborting.")
-
+    backup_path = dock_plist_path.with_name(f"{dock_plist_path.name}.bak")
     copy2(dock_plist_path, backup_path)
 
 
